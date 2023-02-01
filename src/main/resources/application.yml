@@ -1,0 +1,46 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /supply
+    application-display-name: supplySystem
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: supplyInfoSystem
+  devtools:
+    livereload:
+      port: 35731
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+  type-aliases-package: com.example.model
+
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: auto
+      where-strategy: ignored
+      insert-strategy: not_null
+      update-strategy: not_null
+  type-aliases-package: com.example.model
+
+#fdfs
+fdfs:
+  resHost: https://www.zykhome.club/
+  storagePort: 80
+  connect-timeout: 1000
+  so-timeout: 1500
+  trackerList: 39.99.182.103:22122
+  thumbImage:
+    width: 100
+    height: 100
+  pool:
+    max-total: 500
+    max-wait-millis: 2000

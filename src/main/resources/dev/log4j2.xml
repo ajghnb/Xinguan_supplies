@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+
+  <Properties>
+    <Property name="CONSOLE_FORMAT" value="%d{HH:mm:ss.SSS} %50.50l[%highlight{%5p}]: %m%n" />
+  </Properties>
+
+  <Appenders>
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+      <PatternLayout pattern="${CONSOLE_FORMAT}" disableAnsi="false"/>
+    </Console>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="org.springframework" level="INFO" additivity="false">
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+    <Logger name="org.springframework.web.servlet" level="ERROR" additivity="false">
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+    <Logger name="com.example.dao" level="DEBUG" additivity="false">
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+    <Logger name="com.example.common.utils.LogUtils" level="DEBUG" additivity="false">
+      <AppenderRef ref="CONSOLE"/>
+    </Logger>
+
+    <Root level="INFO">
+      <AppenderRef ref="CONSOLE"/>
+    </Root>
+  </Loggers>
+</configuration>

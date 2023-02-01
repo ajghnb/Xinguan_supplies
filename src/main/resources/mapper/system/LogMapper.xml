@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.system.LogDao">
+    <select id="queryLogList" parameterType="LogParam" resultType="Log">
+        select * from xinguan.tb_log as tl
+        <where>
+            <if test="location != null">
+                `location`  concat('%',#{location}, '%')
+            </if>
+            <if test="ip != null">
+                `ip`  concat('%',#{ip}, '%')
+            </if>
+            <if test="username != null">
+                `username`  concat('%',#{username}, '%')
+            </if>
+        </where>
+        order by tl.create_time desc
+    </select>
+
+</mapper>

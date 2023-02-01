@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.system.RoleDao">
+
+    <select id="queryRoleList" parameterType="RoleParam" resultType="Role">
+        select * from xinguan.tb_role
+        <where>
+            <if test="roleName != null">
+              `role_name` like concat('%',#{roleName}, '%')
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

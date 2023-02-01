@@ -1,0 +1,39 @@
+#数据源
+spring:
+  datasource:
+    username: root
+    password: 1a2b3c4d
+    url: jdbc:mysql://47.97.116.112:3306/xinguan?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 下面为连接池的补充设置，应用到上面所有数据源中
+      # 初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      stat-view-servlet:
+        enabled: true
+        login-username: root
+        login-password: 123456
+        allow:
+        deny:
+        url-pattern: /druid/*
+      servlet:
+        multipart:
+          enabled: true #是否启用http上传处理
+          max-request-size: 100MB #最大请求文件的大小
+          max-file-size: 20MB #设置单个文件最大长度
+          file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+
+#mybatis
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+#log4j日志
+logging:
+  config: classpath:dev/log4j2.xml
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.business.ConsumerDao">
+
+    <select id="queryConsumerList" parameterType="ConsumerParam" resultType="Consumer">
+        select * from biz_consumer as bic
+        <where>
+            <if test="name != null">
+                `name` like concat ('%',#{name}, '%')
+            </if>
+            <if test="address != null">
+                and `address` like concat ('%',#{address}, '%')
+            </if>
+            <if test="contact != null">
+                and `contact` like concat ('%',#{contact}, '%')
+            </if>
+        </where>
+        order by bic.sort asc
+    </select>
+
+</mapper>

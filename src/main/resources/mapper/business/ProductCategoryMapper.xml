@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.business.ProductCategoryDao">
+
+    <select id="queryProductCategoryList" parameterType="ProductCategoryParam" resultType="ProductCategory">
+        select * from xinguan.biz_product_category bpc
+        <where>
+            <if test="name != null">
+                `name` like concat('%',#{name}, '%')
+            </if>
+        </where>
+        order by bpc.sort asc
+    </select>
+
+
+
+</mapper>

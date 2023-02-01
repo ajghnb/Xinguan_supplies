@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.system.LoginLogDao">
+    <select id="queryLoginLogList" parameterType="LogParam" resultType="LoginLog">
+
+        select * from xinguan.tb_login_log as tll
+        <where>
+            <if test="ip != null">
+                `ip` like concat('%',#{ip}, '%')
+            </if>
+            <if test="location != null">
+                and `location` like concat('%',#{location}, '%')
+            </if>
+            <if test="username != null">
+                and `username`like concat('%',#{username}, '%')
+            </if>
+        </where>
+        order by tll.login_time desc
+    </select>
+
+
+    <select id="userLoginReport" resultType="map"
+            parameterType="UserParam">
+        select date_format(l.login_time, '%m-%d') days, count(1) count
+        from ( select * from tb_login_log
+               where date_sub(curdate(), interval 20 day) &lt; date(login_time)
+              ) as l
+        <where>
+            <if test="username != null and username != ''">
+                l.username = #{username}
+            </if>
+        </where>
+        group by days
+    </select>
+
+</mapper>

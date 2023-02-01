@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.business.ProductDao">
+
+
+    <select id="queryProductList"  parameterType="ProductParam" resultType="Product">
+        select * from xinguan.biz_product as p
+        <where>
+            <if test="status != null">
+              p.`status` = #{status}
+            </if>
+         </where>
+            <choose>
+                <when test="threeCategoryId != null">
+                    and p.`one_category_id` = #{oneCategoryId}
+                    and p.`two_category_id` = #{twoCategoryId}
+                    and p.`three_category_id` = #{threeCategoryId}
+                </when>
+                <when test="twoCategoryId != null">
+                    and p.`one_category_id` = #{oneCategoryId}
+                    and p.`two_category_id` = #{twoCategoryId}
+                </when>
+                <when test="oneCategoryId != null">
+                    and p.`one_category_id` = #{oneCategoryId}
+                </when>
+                <when test="name != null">
+                    and p.`name` like CONCAT ('%',#{name},'%')
+                    order by p.sort asc
+                </when>
+                <otherwise>
+                  order by p.sort asc
+                </otherwise>
+            </choose>
+    </select>
+
+
+    <!--
+    <select id="queryProductList" parameterType="ProductParam" resultType="Product">
+        select * from biz_product as product
+        <where>
+            <if test="status != null">
+                `status` = #{status}
+            </if>
+            <if test="oneCategoryId != null">
+                and `oneCategoryId` = #{oneCategoryId}
+            </if>
+            <if test="twoCategoryId != null">
+                and `twoCategoryId` = #{twoCategoryId}
+            </if>
+            <if test="threeCategoryId != null">
+                and `threeCategoryId` = #{threeCategoryId}
+            </if>
+            <if test="name ! = null">
+                and `name` = #{name}
+            </if>
+            order by product.sort asc
+        </where>
+    </select>
+    -->
+
+
+</mapper>

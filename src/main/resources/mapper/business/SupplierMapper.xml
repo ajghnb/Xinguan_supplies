@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.business.SupplierDao">
+    <select id="querySupplierList" parameterType="SupplierParam" resultType="Supplier">
+        select * from biz_supplier as bis
+        <where>
+            <if test="name != null">
+                `name` like concat('%',#{name}, '%')
+            </if>
+            <if test="contact != null">
+               and `contact` like concat('%',#{contact}, '%')
+            </if>
+            <if test="address != null">
+               and `address` like concat('%',#{address}, '%')
+            </if>
+        </where>
+        order by bis.sort asc
+    </select>
+
+
+</mapper>

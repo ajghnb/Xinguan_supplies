@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.business.OutStockDao">
+
+    <select id="queryOutStockList" parameterType="OutStockParam" resultType="OutStock">
+        select *
+        from xinguan.biz_out_stock bos
+        <where>
+            <if test="outNum != null">
+                out_num like CONCAT ('%',#{name},'%')
+            </if>
+            <if test="type != null">
+                type = #{type}
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </where>
+        order by bos.create_time desc
+    </select>
+</mapper>
