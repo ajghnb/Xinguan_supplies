@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 18237
@@ -182,7 +183,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         LogUtils.LOGGER.debug("开始查询物资父级分类树");
 
         List<ProductCategoryPo> productCategories = findAll();
-        return ProductCategoryBuilder.build(productCategories);
+        List<ProductCategoryTreeNodePo> productCategoryTreeNodes = productCategories.stream()
+                .map(ProductCategoryConverter::converterToTreeNodePo)
+                .collect(Collectors.toList());
+
+        return ProductCategoryBuilder.buildParent(productCategoryTreeNodes);
     }
 
 
