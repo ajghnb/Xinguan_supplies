@@ -27,20 +27,4 @@ public class MenuConverter {
         }
         return null;
     }
-
-    /**
-     * 转成menuVo(菜单和按钮）
-     *
-     * @param menu
-     * @return
-     */
-    public static MenuVo converterToMenuVO(MenuPo menu) {
-        if (menu != null) {
-            MenuVo menuVo = MenuVo.fromMenuPo(menu);
-            menuVo.setDisabled(menu.getAvailable() == 0);
-            return menuVo;
-        }
-        return null;
-    }
-
 }
