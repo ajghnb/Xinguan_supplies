@@ -282,8 +282,8 @@ public class UserController {
         if(verifyCode == null){
             throw new ApiRuntimeException(Assert.VERIFYCODE_ERROR, "验证码已过期,请刷新重试");
         }
-        Date expireDate = verifyCode.getExpireDate();
 
+        Date expireDate = verifyCode.getExpireDate();
         //若过期后移除对应的key-value
         if (expireDate.before(new Date())) {
             request.removeAttribute("verifyCode");

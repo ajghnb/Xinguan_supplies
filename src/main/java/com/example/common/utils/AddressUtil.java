@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 
 /**
- * @author zhangyukang
+ * @author 18237
  */
 public class AddressUtil {
 
@@ -24,7 +24,7 @@ public class AddressUtil {
 
     @SuppressWarnings("all")
     public static String getCityInfo(String ip) {
-        //db
+        //获取db文件
         String dbPath = AddressUtil.class.getResource("/ip2region/ip2region.db").getPath();
         File file = new File(dbPath);
 
