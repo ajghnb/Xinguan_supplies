@@ -54,5 +54,5 @@ public interface LoginLogService {
      *
      * @param logIds
      */
-    void batchDeleteByIdS(List<Long> logIds);
+    void batchDeleteByIds(List<Long> logIds);
 }

@@ -110,7 +110,7 @@ public class LoginLogServiceImpl implements LoginLogService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void batchDeleteByIdS(List<Long> logIds) {
+    public void batchDeleteByIds(List<Long> logIds) {
         for (Long logId : logIds) {
             LoginLog loginLog = loginLogDao.selectById(logId);
             //检查指定系统登录日志是否存在

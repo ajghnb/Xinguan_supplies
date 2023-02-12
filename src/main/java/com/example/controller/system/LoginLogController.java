@@ -78,7 +78,7 @@ public class LoginLogController {
                 logIdList.add(Long.parseLong(id));
             }
         }
-        loginLogService.batchDeleteByIdS(logIdList);
+        loginLogService.batchDeleteByIds(logIdList);
         return R.ofSuccess();
     }
 
