@@ -9,7 +9,7 @@ import java.util.List;
  * @author 18237
  */
 @Data
-public class PageVo<T>{
+public class PageVo<T> {
 
     private long total;
 
@@ -26,10 +26,10 @@ public class PageVo<T>{
         this.result = data;
         this.pageNum = pageNum;
         this.pageSize = pageSize;
-        this.pages = countPages(pageNum, pageSize, data);
+        this.pages = countPages(pageSize, data);
     }
 
-    private int countPages(int pageNum, int pageSize, List<T> data) {
+    private int countPages(int pageSize, List<T> data) {
         if (data.size() % pageSize == 0) {
             return data.size() / pageSize;
         } else {

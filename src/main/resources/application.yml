@@ -33,11 +33,11 @@ mybatis-plus:
 
 #fdfs
 fdfs:
-  resHost: https://www.zykhome.club/
+  resHost:
   storagePort: 80
   connect-timeout: 1000
   so-timeout: 1500
-  trackerList: 39.99.182.103:22122
+  trackerList: 47.97.116.112:22122
   thumbImage:
     width: 100
     height: 100
