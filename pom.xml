@@ -295,6 +295,13 @@
             <version>2.8.7</version>
         </dependency>
 
+        <!-- expiringmap 接口限流 -->
+        <dependency>
+            <groupId>net.jodah</groupId>
+            <artifactId>expiringmap</artifactId>
+            <version>0.5.10</version>
+        </dependency>
+
     </dependencies>
 
     <!-- spring-boot maven构建插件 -->

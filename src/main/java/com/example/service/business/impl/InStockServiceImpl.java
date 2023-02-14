@@ -48,15 +48,28 @@ public class InStockServiceImpl implements InStockService {
     @Autowired
     private ProductStockDao productStockDao;
 
-    @Override
-    public Page<InStockPo> queryInStockList(InStockParam pageParam) {
-        LogUtils.LOGGER.debug("入库列表: 分页参数:{}", pageParam);
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 
-        return inStockDao.queryInStockList(pageParam);
+    /**
+     * 入库单列表
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public Page<InStockPo> queryInStockList(InStockParam param) {
+        LogUtils.LOGGER.debug("入库列表: 分页参数:{}", param);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+
+        return inStockDao.queryInStockList(param);
     }
 
 
+    /**
+     * 入库单明细
+     *
+     * @param inStockId
+     * @return
+     */
     @Override
     public InStockPo queryInStock(Long inStockId) {
         LogUtils.LOGGER.debug("查询入库单: inStockId:{}", inStockId);
@@ -65,6 +78,12 @@ public class InStockServiceImpl implements InStockService {
     }
 
 
+    /**
+     * 物资入库
+     *
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addInStock(InStockParam param) {
@@ -100,6 +119,12 @@ public class InStockServiceImpl implements InStockService {
     }
 
 
+    /**
+     * 删除物资入库单
+     *
+     * @param inStockId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long inStockId) {
@@ -121,6 +146,12 @@ public class InStockServiceImpl implements InStockService {
     }
 
 
+    /**
+     * 移入回收站
+     *
+     * @param inStockId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeInStock(Long inStockId) {
@@ -139,6 +170,13 @@ public class InStockServiceImpl implements InStockService {
 
     }
 
+
+    /**
+     * 从回收站恢复数据
+     *
+     * @param inStockId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void rollbackInStock(Long inStockId) {
@@ -158,6 +196,12 @@ public class InStockServiceImpl implements InStockService {
     }
 
 
+    /**
+     * 物资入库审核
+     *
+     * @param inStockId
+     * @return
+     */
     @Override
     public void checkInStock(Long inStockId) {
         InStockPo inStock = inStockDao.selectById(inStockId);
@@ -326,6 +370,7 @@ public class InStockServiceImpl implements InStockService {
 
     /**
      * 更新入库单状态
+     *
      * @param inStock
      * @return
      */
@@ -343,10 +388,11 @@ public class InStockServiceImpl implements InStockService {
 
     /**
      * 检查入库物资供应商
+     *
      * @param param
      * @return
      */
-    public void checkInStockSupplier(InStockParam param){
+    public void checkInStockSupplier(InStockParam param) {
         if (param.getSupplierId() == null) {
             SupplierParam supplierParam = param.checkInStockSupplier();
             //参数校验

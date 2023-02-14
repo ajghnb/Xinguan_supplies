@@ -102,7 +102,7 @@ public class GeneralConst {
     /**
      * 物资状态错误
      */
-    public static final int INSTOCK_STATUS_ERROR  = 3005;
+    public static final int INSTOCK_STATUS_ERROR = 3005;
 
     /**
      * 物资回收
@@ -120,11 +120,6 @@ public class GeneralConst {
     public static final int PRODUCT_INSTOCK_NUMBER_ERROR = 3007;
 
     /**
-     * 入库单物资为空
-     */
-    public static final int PRODUCT_INSTOCK_EMPTY = 3008;
-
-    /**
      * 物资找不到
      */
     public static final int PRODUCT_NOT_FOUND = 3002;
@@ -132,18 +127,37 @@ public class GeneralConst {
     /**
      * 物资库存不足
      */
-    public static final int PRODUCT_STOCK_ERROR = 3009;
+    public static final int PRODUCT_STOCK_ERROR = 3008;
 
-
+    /**
+     * 物资出库为空
+     */
     public static final int PRODUCT_OUTSTOCK_EMPTY = 3001;
 
+    /**
+     * 用户token信息错误
+     */
     public static final int TOKEN_ERROR = 5001;
 
+    /**
+     * 用户状态错误
+     */
     public static final int USER_STATUS = 3010;
 
+    /**
+     * 用户密码错误
+     */
     public static final int PASSWORD_ERROR = 3011;
 
+    /**
+     * 验证码错误
+     */
     public static final int VERIFYCODE_ERROR = 5002;
+
+    /**
+     * 用户操作频繁
+     */
+    public static final int OPERATE_FREQUENCY = 3009;
 
 
 }
