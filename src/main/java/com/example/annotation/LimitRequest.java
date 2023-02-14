@@ -18,7 +18,7 @@ public @interface LimitRequest {
     /**
      * 允许请求的次数
      */
-    int count() default 3;
+    int count() default 2;
 
 }
  

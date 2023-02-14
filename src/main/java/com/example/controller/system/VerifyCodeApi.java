@@ -2,7 +2,6 @@ package com.example.controller.system;
 
 import com.example.annotation.LimitRequest;
 import com.example.common.utils.LogUtils;
-import com.example.model.R;
 import com.example.model.po.VerifyCode;
 import com.example.service.system.IVerifyCodeGen;
 import com.example.service.system.impl.SimpleCharVerifyCodeGenImpl;
@@ -28,7 +27,7 @@ public class VerifyCodeApi {
 
 
     /**
-     * 图片验证码(限制为8秒内最多能请求三次)
+     * 图片验证码(限制为8秒内最多能请求四次)
      *
      * @param request
      * @param response
@@ -37,7 +36,7 @@ public class VerifyCodeApi {
     @LimitRequest(count = 3, time = 8000)
     @ApiOperation(value = "验证码")
     @GetMapping("/code")
-    public R<Void> verifyCode(HttpServletRequest request, HttpServletResponse response) {
+    public void verifyCode(HttpServletRequest request, HttpServletResponse response) {
         IVerifyCodeGen iVerifyCodeGen = new SimpleCharVerifyCodeGenImpl();
         try {
             // 设置图片长宽
@@ -59,7 +58,6 @@ public class VerifyCodeApi {
         } catch (IOException e) {
             LogUtils.LOGGER.debug("随机生成验证码异常: 验证码:{}", e);
         }
-        return R.ofSuccess();
     }
 }
 
