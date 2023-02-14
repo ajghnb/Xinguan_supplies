@@ -25,15 +25,27 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private SupplierDao supplierDao;
 
-
+    /**
+     * 供应商列表
+     *
+     * @param param
+     * @return
+     */
     @Override
-    public Page<SupplierPo> querySupplierList(SupplierParam pageParam) {
-        LogUtils.LOGGER.debug("物资供应商列表: 分页参数:{}", pageParam);
+    public Page<SupplierPo> querySupplierList(SupplierParam param) {
+        LogUtils.LOGGER.debug("物资供应商列表: 分页参数:{}", param);
 
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        return supplierDao.querySupplierList(pageParam);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        return supplierDao.querySupplierList(param);
     }
 
+
+    /**
+     * 查询所有供应商
+     *
+     * @param
+     * @return
+     */
     @Override
     public List<SupplierPo> findAll() {
         LogUtils.LOGGER.debug("查询所有物资供应商");
@@ -41,6 +53,13 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierDao.selectList(null);
     }
 
+
+    /**
+     * 添加供应商信息
+     *
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Long addSupplier(SupplierParam param) {
@@ -56,6 +75,13 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierId;
     }
 
+
+    /**
+     * 编辑供应商
+     *
+     * @param supplierId
+     * @return
+     */
     @Override
     public SupplierPo editById(Long supplierId) {
         LogUtils.LOGGER.debug("编辑物资提供商: supplierId:{}", supplierId);
@@ -67,6 +93,14 @@ public class SupplierServiceImpl implements SupplierService {
         return supplier;
     }
 
+
+    /**
+     * 更新供应商
+     *
+     * @param supplierId
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSupplier(Long supplierId, SupplierParam param) {
@@ -83,6 +117,12 @@ public class SupplierServiceImpl implements SupplierService {
         });
     }
 
+
+    /**
+     * 删除供应商
+     * @param supplierId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long supplierId) {
@@ -95,6 +135,7 @@ public class SupplierServiceImpl implements SupplierService {
             return new ApiRuntimeException(isAssert);
         });
     }
+
 
     /**
      * 检查物资供应商是否存在

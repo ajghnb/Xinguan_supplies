@@ -33,6 +33,7 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 加载菜单树（按钮和菜单）
      *
+     * @param
      * @return
      */
     @Override
@@ -51,6 +52,7 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 获取所有菜单
      *
+     * @param
      * @return
      */
     @Override
@@ -64,6 +66,7 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 获取展开项
      *
+     * @param
      * @return
      */
     @Override
@@ -88,6 +91,7 @@ public class MenuServiceImpl implements MenuService {
      * 添加菜单
      *
      * @param param
+     * @return
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -110,6 +114,7 @@ public class MenuServiceImpl implements MenuService {
      * 删除菜单
      *
      * @param menuId
+     * @return
      */
     @Transactional(rollbackFor = Exception.class)
     @Override

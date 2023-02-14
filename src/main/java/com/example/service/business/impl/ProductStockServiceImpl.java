@@ -23,19 +23,32 @@ public class ProductStockServiceImpl implements ProductStockService {
     private ProductStockDao productStockDao;
 
 
+    /**
+     * 物资库存列表
+     *
+     * @param param
+     * @return
+     */
     @Override
-    public Page<ProductStock> queryProductStockList(ProductParam pageParam) {
-        LogUtils.LOGGER.debug("物资列表: 分页大小:{}", pageParam);
+    public Page<ProductStock> queryProductStockList(ProductParam param) {
+        LogUtils.LOGGER.debug("物资列表: 分页大小:{}", param);
 
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        return productStockDao.queryProductStockList(pageParam);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        return productStockDao.queryProductStockList(param);
     }
 
-    @Override
-    public List<ProductStock> findAllStocks(ProductParam productParam) {
-        LogUtils.LOGGER.debug("所有物资: 分页大小:{}", productParam);
 
-        PageHelper.startPage(productParam.getPageNum(), productParam.getPageSize());
-        return productStockDao.findAllStocks(productParam);
+    /**
+     * 所有库存信息
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public List<ProductStock> findAllStocks(ProductParam param) {
+        LogUtils.LOGGER.debug("所有物资: 分页大小:{}", param);
+
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        return productStockDao.findAllStocks(param);
     }
 }

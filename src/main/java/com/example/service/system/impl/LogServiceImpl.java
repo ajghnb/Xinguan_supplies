@@ -21,10 +21,16 @@ import java.util.List;
 @Service("logService")
 public class LogServiceImpl implements LogService {
 
-
     @Autowired
     LogDao logDao;
 
+
+    /**
+     * 日志信息列表
+     *
+     * @param param
+     * @return
+     */
     @Override
     public Page<Log> queryLogList(LogParam param) {
         LogUtils.LOGGER.debug("系统日志列表: 日志参数:{}", param);
@@ -32,6 +38,13 @@ public class LogServiceImpl implements LogService {
         return logDao.queryLogList(param);
     }
 
+
+    /**
+     * 保存登入日志
+     *
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveLog(LogParam param) {
@@ -45,6 +58,13 @@ public class LogServiceImpl implements LogService {
                 });
     }
 
+
+    /**
+     * 删除操作日志
+     *
+     * @param logId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long logId) {
@@ -57,6 +77,13 @@ public class LogServiceImpl implements LogService {
         });
     }
 
+
+    /**
+     * 批量删除
+     *
+     * @param logIds
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void batchDeleteByIds(List<Long> logIds) {
@@ -68,6 +95,13 @@ public class LogServiceImpl implements LogService {
         });
     }
 
+
+    /**
+     * 检查指导日志记录是否存在
+     *
+     * @param logId
+     * @return
+     */
     public void checkLogIsExit(Long logId) {
         Log log = logDao.selectById(logId);
         if (log == null) {

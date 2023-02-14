@@ -50,16 +50,28 @@ public class OutStockServiceImpl implements OutStockService {
     @Autowired
     private OutStockInfoDao outStockInfoDao;
 
-    @Autowired
-    private OutStockConverter outStockConverter;
 
+    /**
+     * 物资发放列表表
+     *
+     * @param param
+     * @return
+     */
     @Override
-    public Page<OutStockPo> queryOutStockList(OutStockParam pageParam) {
-        LogUtils.LOGGER.debug("出库列表: 分页参数:{}", pageParam);
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        return outStockDao.queryOutStockList(pageParam);
+    public Page<OutStockPo> queryOutStockList(OutStockParam param) {
+        LogUtils.LOGGER.debug("出库列表: 分页参数:{}", param);
+
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        return outStockDao.queryOutStockList(param);
     }
 
+
+    /**
+     * 发放单详情
+     *
+     * @param outStockId
+     * @return
+     */
     @Override
     public OutStockPo queryOutStock(Long outStockId) {
         LogUtils.LOGGER.debug("查询出库明细: outStockId:{}", outStockId);
@@ -68,6 +80,13 @@ public class OutStockServiceImpl implements OutStockService {
         return outStock;
     }
 
+
+    /**
+     * 提交物资发放
+     *
+     * @param param
+     * @reuturn
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addOutStock(OutStockParam param) {
@@ -102,6 +121,13 @@ public class OutStockServiceImpl implements OutStockService {
         }
     }
 
+
+    /**
+     * 移入回收站
+     *
+     * @param outStockId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeOutStock(Long outStockId) {
@@ -120,6 +146,13 @@ public class OutStockServiceImpl implements OutStockService {
 
     }
 
+
+    /**
+     * 从回收站恢复数据
+     *
+     * @param outStockId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void rollbackOutStock(Long outStockId) {
@@ -135,6 +168,13 @@ public class OutStockServiceImpl implements OutStockService {
         }
     }
 
+
+    /**
+     * 删除发放单
+     *
+     * @param outStockId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long outStockId) {
@@ -159,6 +199,13 @@ public class OutStockServiceImpl implements OutStockService {
         outStockInfoDao.delete(wrapper);
     }
 
+
+    /**
+     * 发放单审核
+     *
+     * @param outStockId
+     * @return
+     */
     @Override
     public void checkOutStock(Long outStockId) {
         LogUtils.LOGGER.debug("开始审核物资发放: outStockId:{}", outStockId);

@@ -27,14 +27,28 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
 
-    @Override
-    public Page<ProductPo> queryProductList(ProductParam productParam) {
-        LogUtils.LOGGER.debug("物资列表: 分页参数:{}", productParam);
 
-        PageHelper.startPage(productParam.getPageNum(), productParam.getPageSize());
-        return productDao.queryProductList(productParam);
+    /**
+     * 物资列表
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public Page<ProductPo> queryProductList(ProductParam param) {
+        LogUtils.LOGGER.debug("物资列表: 分页参数:{}", param);
+
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        return productDao.queryProductList(param);
     }
 
+
+    /**
+     * 添加物资
+     *
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addProduct(ProductParam param) {
@@ -57,6 +71,13 @@ public class ProductServiceImpl implements ProductService {
                 });
     }
 
+
+    /**
+     * 编辑物资信息
+     *
+     * @param productId
+     * @return
+     */
     @Override
     public ProductPo editById(Long productId) {
         LogUtils.LOGGER.debug("物资详情: productId:{}", productId);
@@ -68,6 +89,13 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+
+    /**
+     * 删除物资信息
+     *
+     * @param productId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long productId) {
@@ -86,6 +114,14 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
+
+    /**
+     * 更新商品
+     *
+     * @param productId
+     * @param param
+     * @reuturn
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateProduct(Long productId, ProductParam param) {
@@ -109,6 +145,13 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+
+    /**
+     * 移入回收站
+     *
+     * @param productId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeProduct(Long productId) {
@@ -128,6 +171,13 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
+
+    /**
+     * 从回收站恢复数据
+     *
+     * @param productId
+     * @reuturn
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void rollbackProduct(Long productId) {
@@ -148,6 +198,13 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+
+    /**
+     * 物资审核
+     *
+     * @param productId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void checkProduct(Long productId) {
@@ -168,6 +225,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+
     /**
      * 核对物资是否存在
      *
@@ -175,7 +233,6 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     public ProductPo checkProductIsExit(Long productId) {
-
         ProductPo product = productDao.selectById(productId);
         if (product == null) {
             throw new ApiRuntimeException(Assert.IS_EXIST, "审核物资失败, 该物资不存在");

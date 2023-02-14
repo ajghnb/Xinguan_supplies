@@ -25,14 +25,27 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Autowired
     private ConsumerDao consumerDao;
 
-    @Override
-    public Page<ConsumerPo> queryConsumerList(ConsumerParam pageParam) {
-        LogUtils.LOGGER.debug("物资去向列表: 分页参数:{}", pageParam);
 
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
-        return consumerDao.queryConsumerList(pageParam);
+    /**
+     * 供应商列表
+     *
+     * @param param
+     * @return
+     */
+    @Override
+    public Page<ConsumerPo> queryConsumerList(ConsumerParam param) {
+        LogUtils.LOGGER.debug("物资去向列表: 分页参数:{}", param);
+
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        return consumerDao.queryConsumerList(param);
     }
 
+    /**
+     * 所有供应商
+     *
+     * @param
+     * @return
+     */
     @Override
     public List<ConsumerPo> findAll() {
         LogUtils.LOGGER.debug("查询所有物资去向");
@@ -40,6 +53,13 @@ public class ConsumerServiceImpl implements ConsumerService {
         return consumerDao.selectList(null);
     }
 
+
+    /**
+     * 添加供应商
+     *
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addConsumer(ConsumerParam param) {
@@ -54,6 +74,13 @@ public class ConsumerServiceImpl implements ConsumerService {
                 });
     }
 
+
+    /**
+     * 编辑供应商
+     *
+     * @param consumerId
+     * @return
+     */
     @Override
     public ConsumerPo editById(Long consumerId) {
         LogUtils.LOGGER.debug("编辑物资去向: consumerId:{}", consumerId);
@@ -65,6 +92,14 @@ public class ConsumerServiceImpl implements ConsumerService {
         return consumer;
     }
 
+
+    /**
+     * 更新供应商
+     *
+     * @param consumerId
+     * @param param
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateConsumer(Long consumerId, ConsumerParam param) {
@@ -81,6 +116,13 @@ public class ConsumerServiceImpl implements ConsumerService {
         });
     }
 
+
+    /**
+     * 删除供应商
+     *
+     * @param consumerId
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long consumerId) {
@@ -95,6 +137,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         });
 
     }
+
 
     /**
      * 检查物资去向是否存在

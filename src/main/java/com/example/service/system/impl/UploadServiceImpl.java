@@ -32,6 +32,13 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     private ImageAttachmentDao imageAttachmentDao;
 
+
+    /**
+     * 文件附件列表
+     *
+     * @param param
+     * @return
+     */
     @Override
     public List<ImageAttachmentPo> queryImageList(ImageAttachmentParam param) {
         LogUtils.LOGGER.debug("系统图片文件列表: 查询参数:{}", param);
@@ -42,6 +49,12 @@ public class UploadServiceImpl implements UploadService {
         return imageAttachments;
     }
 
+    /**
+     * 上传附件
+     *
+     * @param file
+     * @return
+     */
     @Override
     public String uploadImage(MultipartFile file) throws IOException {
         LogUtils.LOGGER.debug("开始上传图片文件, file: {}", file);
@@ -71,6 +84,13 @@ public class UploadServiceImpl implements UploadService {
         return path;
     }
 
+
+    /**
+     * 删除附件
+     *
+     * @param imageId
+     * @return
+     */
     @Override
     public void deleteById(Long imageId) {
         LogUtils.LOGGER.debug("开始删除图片, imageId: {}", imageId);
@@ -82,6 +102,13 @@ public class UploadServiceImpl implements UploadService {
         });
     }
 
+
+    /**
+     * 检查指定附件是否存在
+     *
+     * @param imageId
+     * @return
+     */
     public ImageAttachmentPo checkImageIsExit(Long imageId) {
         ImageAttachmentPo image = imageAttachmentDao.selectById(imageId);
         if (image == null) {
