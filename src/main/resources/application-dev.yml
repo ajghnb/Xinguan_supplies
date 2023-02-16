@@ -27,6 +27,11 @@ spring:
           max-request-size: 100MB #最大请求文件的大小
           max-file-size: 20MB #设置单个文件最大长度
           file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+#spring-redis
+  redis:
+    host: localhost
+    port: 6379
+    password:
 
 #mybatis
 mybatis:

@@ -6,6 +6,7 @@ import com.example.annotation.valid.Edit;
 import com.example.annotation.valid.Login;
 import com.example.common.converter.RoleConverter;
 import com.example.common.converter.UserConverter;
+import com.example.common.utils.RedisUtil;
 import com.example.exception.ApiRuntimeException;
 import com.example.exception.asserts.Assert;
 import com.example.model.PageData;
@@ -45,6 +46,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/system/user")
 @Api(tags = "系统模块-用户相关接口")
 public class UserController {
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private UserService userService;
@@ -257,9 +261,10 @@ public class UserController {
     public R<String> login(HttpServletRequest request,
                            @RequestBody @Validated({Login.class, Default.class}) LoginInfo loginInfo) {
         //验证码校验
-        checkVerifyCode(request, loginInfo);
+        checkVerifyCode(loginInfo);
         //token及密钥处理返回
         String tokenSalt = userService.login(loginInfo.getUsername(), loginInfo.getPassword());
+        redisUtil.delete("verifyCode");
         String[] split = tokenSalt.split(",");
         request.getSession().setAttribute("signKey", split[0]);
         loginLogService.addLoginLog(request);
@@ -271,14 +276,12 @@ public class UserController {
     /**
      * 验证码校验
      *
-     * @param request
      * @param loginInfo
      * @return
      */
-    public void checkVerifyCode(HttpServletRequest request, LoginInfo loginInfo) {
-        VerifyCode verifyCode = (VerifyCode) request.getSession()
-                .getAttribute("verifyCode");
+    public void checkVerifyCode(LoginInfo loginInfo) {
 
+        VerifyCode verifyCode = (VerifyCode) redisUtil.get("verifyCode");
         if(verifyCode == null){
             throw new ApiRuntimeException(Assert.VERIFYCODE_ERROR, "验证码已过期,请刷新重试");
         }
@@ -286,7 +289,7 @@ public class UserController {
         Date expireDate = verifyCode.getExpireDate();
         //若过期后移除对应的key-value
         if (expireDate.before(new Date())) {
-            request.removeAttribute("verifyCode");
+            redisUtil.delete("verifyCode");
             throw new ApiRuntimeException(Assert.VERIFYCODE_ERROR, "验证码已过期,请刷新重试");
         }
         //验证码校验
