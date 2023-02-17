@@ -31,9 +31,9 @@ spring:
 
 #spring-redis
   redis:
-    host: localhost
+    host:
     port: 6379
-    password:
+    password: 1a2b3c4d
 
 #mybatis
 mybatis:

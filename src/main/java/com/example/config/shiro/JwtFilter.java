@@ -14,6 +14,7 @@ import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -63,17 +64,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             responseTokenError(response, "Token无效,您无权访问该接口");
             return false;
         }
-        LogUtils.LOGGER.info("[{校验用户身份验证是否合法}]");
-        //3.完成用户密钥和盐值加密校验
-        ActiveUser activeUser = (ActiveUser) SecurityUtils.getSubject().getPrincipal();
-        String password = activeUser.getUser().getPassword();
-        String salt = activeUser.getUser().getSalt();
-        String target = MD5Utils.md5Encryption(password + salt);
-        String signKey = (String) httpServletRequest.getSession().getAttribute("signKey");
-        if (!target.equals(signKey)) {
-            return false;
-        }
-        //4.验证token
+        //3.验证token,执行登录
         Token token = new Token(tokenStr);
         try {
             SecurityUtils.getSubject().login(token);
@@ -82,9 +73,38 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             responseTokenError(response, e.getMessage());
             return false;
         }
+        //校验用户身份信息
+        LogUtils.LOGGER.info("[{校验用户身份验证是否合法}]");
+        //4.完成用户密钥和盐值加密校验
+        ActiveUser activeUser = (ActiveUser) SecurityUtils.getSubject().getPrincipal();
+        String password = activeUser.getUser().getPassword();
+        String salt = activeUser.getUser().getSalt();
+        String target = MD5Utils.md5Encryption(password + salt);
+        String signKey = (String) httpServletRequest.getSession().getAttribute("signKey");
+        //若身份信息不匹配返回false
+        if (!target.equals(signKey)) {
+            return false;
+        }
+        //匹配则返回true
         return true;
+    }
 
-
+    /**
+     * 对spring-boot整合shiro出现的跨域提供支持,此时全局配置跨域不生效
+     */
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
+        // 跨域时会首先发送一个option请求,这里我们给option请求直接返回正常状态
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpStatus.OK.value());
+            return false;
+        }
+        return super.preHandle(request, response);
     }
 
     /**

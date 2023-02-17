@@ -294,7 +294,7 @@ public class UserController {
         }
         //验证码校验
         String code = verifyCode.getCode().toLowerCase();
-        if (!loginInfo.getCaptcha().equals(code)) {
+        if (!loginInfo.getCaptcha().equalsIgnoreCase(code)) {
             throw new ApiRuntimeException(Assert.PARAMETER, "验证码错误,请重新输入");
         }
     }
