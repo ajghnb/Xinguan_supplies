@@ -15,7 +15,9 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="Xinguan_supplies" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -74,6 +76,21 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.10" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:2.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:2.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:5.3.10" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.3.10" level="project" />
+    <orderEntry type="library" name="Maven: io.lettuce:lettuce-core:6.1.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.68.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.68.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.68.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.68.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.68.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.68.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.5.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.5.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:2.5.5" level="project" />
@@ -175,5 +192,6 @@
     <orderEntry type="library" name="Maven: net.coobird:thumbnailator:0.4.8" level="project" />
     <orderEntry type="library" name="Maven: eu.bitwalker:UserAgentUtils:1.20" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.7" level="project" />
+    <orderEntry type="library" name="Maven: net.jodah:expiringmap:0.5.10" level="project" />
   </component>
 </module>
