@@ -22,35 +22,35 @@ public class JwtUtils {
      * @param username       用户名
      * @param audience       接收者
      * @param issuer         发行者
-     * @param tTLMillis      过期时间(毫秒)
+     * @param expMillis      过期时间(毫秒)
      * @param base64Security 密钥
      * @return
      */
     public static String createJWT(String username, Map<String, Object> claims, String audience, String issuer,
-                                   long tTLMillis, String base64Security) {
+                                   long expMillis, String base64Security) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
+        //确定过期时间
+        long nowMills = System.currentTimeMillis();
+        Date nowDate = new Date(nowMills);
         // 生成签名密钥
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64Security);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
         JwtBuilder builder;
         // 添加构成JWT的参数
         // jwt签发者
         builder = Jwts.builder()
+                .setClaims(claims)
                 .setId(username)
                 .setIssuer(issuer)
                 // 接收jwt的一方
                 .setAudience(audience)
-                .setClaims(claims)
                 .signWith(signatureAlgorithm, signingKey);
 
         // 添加Token过期时间
-        if (tTLMillis >= 0) {
-            long expMillis = nowMillis + tTLMillis;
-            Date exp = new Date(expMillis);
-            builder.setExpiration(exp).setNotBefore(now);
+        if (expMillis >= 0) {
+            long endMills = nowMills + expMillis;
+            Date endDate = new Date(endMills);
+            builder.setExpiration(endDate).setNotBefore(nowDate);
         }
         // 生成JWT
         return builder.compact();
