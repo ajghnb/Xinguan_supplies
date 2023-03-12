@@ -262,13 +262,12 @@ public class UserController {
     public R<String> login(HttpServletRequest request,
                            @RequestBody @Validated({Login.class, Default.class}) LoginInfo loginInfo) {
         //验证码校验
-        //checkVerifyCode(loginInfo);
+        checkVerifyCode(loginInfo);
         //Token及密钥处理返回
         String tokenSalt = userService.login(loginInfo.getUsername(), loginInfo.getPassword());
-        //redisUtil.delete("verifyCode");
+        redisUtil.delete("verifyCode");
         String[] split = tokenSalt.split(",");
         request.getSession().setAttribute("signKey", split[0]);
-        System.out.println("用户鉴权信息" + redisUtil.get("signKey"));
         loginLogService.addLoginLog(request);
         return R.ofSuccess(split[1]);
     }
