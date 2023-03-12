@@ -38,10 +38,10 @@ import java.util.stream.Collectors;
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
-    private UserService userService;
+    private JwtInfo jwtInfo;
 
     @Autowired
-    private JwtInfo jwtInfo;
+    private UserService userService;
 
 
     /**
@@ -61,9 +61,9 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         ActiveUser activeUser = (ActiveUser) SecurityUtils.getSubject().getPrincipal();
 
-        if(activeUser.getUser().getType()==0){
+        if (activeUser.getUser().getType() == 0) {
             authorizationInfo.addStringPermission("*:*");
-        }else {
+        } else {
             List<String> permissions = new ArrayList<>(activeUser.getPermissions());
             List<RolePo> roles = activeUser.getRoles();
             //授权角色
@@ -74,7 +74,7 @@ public class UserRealm extends AuthorizingRealm {
             }
             //授权权限
             if (!CollectionUtils.isEmpty(permissions)) {
-                for (String  permission : permissions) {
+                for (String permission : permissions) {
                     if (permission != null && !"".equals(permission)) {
                         authorizationInfo.addStringPermission(permission);
                     }
@@ -84,7 +84,6 @@ public class UserRealm extends AuthorizingRealm {
         return authorizationInfo;
 
 
-
     }
 
 
@@ -92,43 +91,41 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
         String username = JwtUtils.getUsername(token, jwtInfo.getBase64Secret());
-        if(username == null){
-            throw new ApiRuntimeException(Assert.TOKEN,"用户校验信息token错误,请重新登录");
+        if (username == null) {
+            throw new ApiRuntimeException(Assert.TOKEN, "用户校验信息token错误,请重新登录");
         }
         UserPo user = userService.queryUserByName(username);
-        if(user== null){
-            throw new ApiRuntimeException(Assert.IS_EXIST,"该账户用户不存在!");
+        if (user == null) {
+            throw new ApiRuntimeException(Assert.IS_EXIST, "该账户用户不存在!");
         }
-        if(JwtUtils.isExpire(token,jwtInfo.getBase64Secret())){
-            throw new ApiRuntimeException(Assert.INVALID_LOGIN,"token过期,请重新登入!");
+        if (JwtUtils.isExpire(token, jwtInfo.getBase64Secret())) {
+            throw new ApiRuntimeException(Assert.INVALID_LOGIN, "token过期,请重新登入!");
         }
-        if(!JwtUtils.validate(token,jwtInfo)){
-            throw new ApiRuntimeException(Assert.PASSWORD_ERROR,"密码错误,请重试");
+        if (!JwtUtils.validate(token, jwtInfo)) {
+            throw new ApiRuntimeException(Assert.PASSWORD_ERROR, "密码错误,请重试");
         }
-        if(user.getStatus()==0){
-            throw new ApiRuntimeException(Assert.USER_COUNT,"用户账户被锁定,请联系管理员");
+        if (user.getStatus() == 0) {
+            throw new ApiRuntimeException(Assert.USER_COUNT, "用户账户被锁定,请联系管理员");
         }
-
         //如果验证通过，获取用户的角色
-        List<RolePo> roles= userService.queryRolesById(user.getId());
+        List<RolePo> roles = userService.queryRolesById(user.getId());
         //查询用户的所有菜单(包括了菜单和按钮)
         List<RoleParam> roleParams = roles.stream()
                 .map(RoleParam::fromRolePo)
                 .collect(Collectors.toList());
-        List<MenuPo> menus=userService.queryMenuByRoles(roleParams);
+        List<MenuPo> menus = userService.queryMenuByRoles(roleParams);
+        Set<String> urls = new HashSet<>();
+        Set<String> perms = new HashSet<>();
 
-        Set<String> urls=new HashSet<>();
-        Set<String> perms=new HashSet<>();
-
-        if(!CollectionUtils.isEmpty(menus)){
+        if (!CollectionUtils.isEmpty(menus)) {
 
             for (MenuPo menu : menus) {
                 String url = menu.getUrl();
                 String per = menu.getPerms();
-                if(menu.getType()==0&& !StringUtils.isEmpty(url)){
+                if (menu.getType() == 0 && !StringUtils.isEmpty(url)) {
                     urls.add(menu.getUrl());
                 }
-                if(menu.getType()==1&&!StringUtils.isEmpty(per)){
+                if (menu.getType() == 1 && !StringUtils.isEmpty(per)) {
                     perms.add(menu.getPerms());
                 }
             }

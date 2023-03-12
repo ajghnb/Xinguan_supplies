@@ -36,11 +36,17 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- 数据源 -->
+        <!-- druid数据源 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.1.22</version>
+        </dependency>
+        <!-- druid数据源 SQL监控日志 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.6</version>
         </dependency>
 
         <!-- 数据库分页 -->
@@ -268,12 +274,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!-- swagger2 支持的swagger-models版本 -->
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
             <version>1.5.22</version>
         </dependency>
+
         <!-- swagger2 支持的guava版本 -->
         <dependency>
             <groupId>com.google.guava</groupId>

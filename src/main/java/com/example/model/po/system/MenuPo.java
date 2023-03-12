@@ -22,7 +22,6 @@ import java.util.Date;
 @TableName("tb_menu")
 public class MenuPo {
 
-    @Id
     @ExcelField(value = "编号", width = 50)
     @GeneratedValue(generator = "JDBC")
     private Long id;

@@ -102,10 +102,10 @@ public class UserServiceImpl implements UserService {
     public List<RolePo> queryRolesById(Long userId) {
         LogUtils.LOGGER.debug("查询用户角色信息: userId:{}", userId);
         UserPo user = checkUserIsExit(userId);
-        List<UserRolePo> userRoles = userRoleDao.queryUserRoleById(user.getId());
+        List<UserRolePo> userRoles = userRoleDao.queryRoleById(user.getId());
         ArrayList<RolePo> roles = new ArrayList<>();
         ArrayList<Long> roleIds = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(roleIds)) {
+        if (!CollectionUtils.isEmpty(userRoles)) {
             for (UserRolePo userRole : userRoles) {
                 roleIds.add(userRole.getRoleId());
             }
@@ -125,20 +125,20 @@ public class UserServiceImpl implements UserService {
     /**
      * 查询权限
      *
-     * @param roles 用户的角色
+     * @param roleParams 用户的角色
      * @return
      */
     @Override
-    public List<MenuPo> queryMenuByRoles(List<RoleParam> roles) {
-        LogUtils.LOGGER.debug("查询角色菜单权限: 角色信息:{}", roles);
+    public List<MenuPo> queryMenuByRoles(List<RoleParam> roleParams) {
+        LogUtils.LOGGER.debug("查询角色菜单权限: 角色信息:{}", roleParams);
         List<MenuPo> menus = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(roles)) {
+        if (!CollectionUtils.isEmpty(roleParams)) {
             //存放用户的菜单id
             Set<Long> menuIds = new HashSet<>();
             List<RoleMenuPo> roleMenus;
-            for (RoleParam role : roles) {
+            for (RoleParam roleParam : roleParams) {
                 //根据角色ID查询权限ID
-                roleMenus = roleMenuDao.queryRoleMenus(role.getId());
+                roleMenus = roleMenuDao.queryRoleMenusById(roleParam.getId());
                 if (!CollectionUtils.isEmpty(roleMenus)) {
                     for (RoleMenuPo roleMenu : roleMenus) {
                         menuIds.add(roleMenu.getMenuId());
@@ -171,9 +171,7 @@ public class UserServiceImpl implements UserService {
         //检查当前用户角色
         List<MenuPo> menus = checkUserOwnRoles();
         if (!CollectionUtils.isEmpty(menus)) {
-            menuNodes = menus.stream()
-                    .map(MenuConverter::converterToMenuNodePo)
-                    .collect(Collectors.toList());
+            menuNodes = MenuConverter.converterToMenuNodePos(menus);
         }
         //构建树形菜单
         return MenuTreeBuilder.build(menuNodes);

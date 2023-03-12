@@ -23,23 +23,23 @@ public class MenuNodeVo {
 
     private Long id;
 
+    private Long parentId;
+
+    private String menuName;
+
     private String url = null;
 
     private String icon;
-
-    private String perms;
-
-    private Integer type;
 
     private Long orderNum;
 
     private Integer open;
 
-    private Long parentId;
-
-    private String menuName;
-
     private boolean disabled;
+
+    private String perms;
+
+    private Integer type;
 
 
     private List<MenuNodeVo> children = new ArrayList<>();
@@ -74,7 +74,6 @@ public class MenuNodeVo {
         String jsonMenuNode = JSON.toJSONString(menuNode.getChildren());
         List<MenuNodeVo> menuNodeVos = JSON.parseArray(jsonMenuNode, MenuNodeVo.class);
         menuNodeVo.setChildren(menuNodeVos);
-
         return menuNodeVo;
     }
 

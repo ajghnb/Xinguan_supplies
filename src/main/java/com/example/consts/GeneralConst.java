@@ -159,5 +159,4 @@ public class GeneralConst {
      */
     public static final int OPERATE_FREQUENCY = 3009;
 
-
 }

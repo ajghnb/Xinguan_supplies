@@ -3,15 +3,19 @@ package com.example.config.shiro;
 
 import com.example.common.utils.LogUtils;
 import com.example.common.utils.MD5Utils;
+import com.example.common.utils.RedisUtil;
 import com.example.exception.asserts.Assert;
 import com.example.model.ActiveUser;
 import com.example.model.R;
 import com.google.gson.Gson;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,15 +79,18 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         }
         //校验用户身份信息
         LogUtils.LOGGER.info("[{校验用户身份验证是否合法}]");
-        //4.完成用户密钥和盐值加密校验
-        ActiveUser activeUser = (ActiveUser) SecurityUtils.getSubject().getPrincipal();
-        String password = activeUser.getUser().getPassword();
-        String salt = activeUser.getUser().getSalt();
-        String target = MD5Utils.md5Encryption(password + salt);
-        String signKey = (String) httpServletRequest.getSession().getAttribute("signKey");
-        //若身份信息不匹配返回false
-        if (!target.equals(signKey)) {
-            return false;
+        //4.完成用户鉴权信息校验
+        if (httpServletRequest.getRequestURI().equals("login")) {
+            ActiveUser activeUser = (ActiveUser) SecurityUtils.getSubject().getPrincipal();
+            String password = activeUser.getUser().getPassword();
+            String salt = activeUser.getUser().getSalt();
+            String activeKey = MD5Utils.md5Encryption(password + salt);
+            String signKey = (String) httpServletRequest.getSession()
+                    .getAttribute("signKey");
+            //若身份信息不匹配返回false
+            if (!activeKey.equals(signKey)) {
+                return false;
+            }
         }
         //匹配则返回true
         return true;
@@ -100,7 +107,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        //httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         // 跨域时会首先发送一个option请求,这里我们给option请求直接返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());

@@ -37,7 +37,8 @@ fdfs:
   storagePort: 80
   connect-timeout: 1000
   so-timeout: 1500
-  trackerList: 47.97.116.112:22122
+  trackerList:
+    - 47.97.116.112:22122
   thumbImage:
     width: 100
     height: 100

@@ -21,7 +21,7 @@ public class MenuTreeBuilder {
      */
     public static List<MenuNodePo> build(List<MenuNodePo> nodes) {
         //初始化根节点
-        ArrayList<MenuNodePo> rootMenus = new ArrayList<>();
+        List<MenuNodePo> rootMenus = new ArrayList<>();
         //创建根节点
         nodes.stream().forEach((node) -> {
             if (node.getParentId() == 0) {

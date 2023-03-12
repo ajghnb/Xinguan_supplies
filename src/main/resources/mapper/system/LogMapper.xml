@@ -6,13 +6,13 @@
         select * from xinguan.tb_log as tl
         <where>
             <if test="location != null">
-                `location`  concat('%',#{location}, '%')
+                `location` like concat('%',#{location}, '%')
             </if>
             <if test="ip != null">
-                `ip`  concat('%',#{ip}, '%')
+               and `ip` like concat('%',#{ip}, '%')
             </if>
             <if test="username != null">
-                `username`  concat('%',#{username}, '%')
+               and `username` like concat('%',#{username}, '%')
             </if>
         </where>
         order by tl.create_time desc

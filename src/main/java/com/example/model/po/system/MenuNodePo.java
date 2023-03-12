@@ -1,7 +1,9 @@
 package com.example.model.po.system;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,6 +15,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuNodePo {
 
     private Long id;
@@ -41,9 +45,9 @@ public class MenuNodePo {
     /**
      * 排序,根据order排序
      */
-    public static Comparator<MenuNodePo> order(){
+    public static Comparator<MenuNodePo> order() {
         Comparator<MenuNodePo> comparator = (o1, o2) -> {
-            if(o1.getOrderNum().equals(o2.getOrderNum())){
+            if (!o1.getOrderNum().equals(o2.getOrderNum())) {
                 return (int) (o1.getOrderNum() - o2.getOrderNum());
             }
             return 0;
@@ -51,20 +55,20 @@ public class MenuNodePo {
         return comparator;
     }
 
-    public static MenuNodePo fromMenuPo(MenuPo menu){
-
+    public static MenuNodePo fromMenuPo(MenuPo menu) {
         MenuNodePo menuNode = MenuNodePo.builder()
-                .id(menu.getId())
-                .parentId(menu.getParentId())
-                .menuName(menu.getMenuName())
-                .url(menu.getUrl())
-                .icon(menu.getIcon())
-                .orderNum(menu.getOrderNum())
-                .open(menu.getOpen())
-                .perms(menu.getPerms())
-                .type(menu.getType())
-                .build();
+                    .id(menu.getId())
+                    .parentId(menu.getParentId())
+                    .menuName(menu.getMenuName())
+                    .url(menu.getUrl())
+                    .icon(menu.getIcon())
+                    .orderNum(menu.getOrderNum())
+                    .open(menu.getOpen())
+                    .perms(menu.getPerms())
+                    .type(menu.getType())
+                    .build();
         return menuNode;
+
     }
 
 }

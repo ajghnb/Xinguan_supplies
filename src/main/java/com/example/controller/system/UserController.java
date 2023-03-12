@@ -7,6 +7,7 @@ import com.example.annotation.valid.Login;
 import com.example.common.converter.RoleConverter;
 import com.example.common.converter.UserConverter;
 import com.example.common.utils.RedisUtil;
+import com.example.consts.GeneralConst;
 import com.example.exception.ApiRuntimeException;
 import com.example.exception.asserts.Assert;
 import com.example.model.PageData;
@@ -136,7 +137,7 @@ public class UserController {
     @RequiresPermissions({"user:status"})
     @PutMapping("/updateStatus/{id}/{status}")
     public R<Void> updateUserStatus(@PathVariable("id") Long userId,
-                                @PathVariable("status") Boolean userStatus) {
+                                    @PathVariable("status") Boolean userStatus) {
         userService.updateStatus(userId, userStatus);
         return R.ofSuccess();
     }
@@ -261,16 +262,16 @@ public class UserController {
     public R<String> login(HttpServletRequest request,
                            @RequestBody @Validated({Login.class, Default.class}) LoginInfo loginInfo) {
         //验证码校验
-        checkVerifyCode(loginInfo);
-        //token及密钥处理返回
+        //checkVerifyCode(loginInfo);
+        //Token及密钥处理返回
         String tokenSalt = userService.login(loginInfo.getUsername(), loginInfo.getPassword());
-        redisUtil.delete("verifyCode");
+        //redisUtil.delete("verifyCode");
         String[] split = tokenSalt.split(",");
         request.getSession().setAttribute("signKey", split[0]);
+        System.out.println("用户鉴权信息" + redisUtil.get("signKey"));
         loginLogService.addLoginLog(request);
         return R.ofSuccess(split[1]);
     }
-
 
 
     /**
@@ -282,7 +283,7 @@ public class UserController {
     public void checkVerifyCode(LoginInfo loginInfo) {
 
         VerifyCode verifyCode = (VerifyCode) redisUtil.get("verifyCode");
-        if(verifyCode == null){
+        if (verifyCode == null) {
             throw new ApiRuntimeException(Assert.VERIFYCODE_ERROR, "验证码已过期,请刷新重试");
         }
 

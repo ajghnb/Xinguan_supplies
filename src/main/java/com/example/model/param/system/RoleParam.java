@@ -46,7 +46,7 @@ public class RoleParam extends PageQueryParam {
                 .id(role.getId())
                 .roleName(role.getRoleName())
                 .remark(role.getRemark())
-                .status(role.getStatus() == 0)
+                .status(role.getStatus() == 1)
                 .build();
         return roleParam;
     }

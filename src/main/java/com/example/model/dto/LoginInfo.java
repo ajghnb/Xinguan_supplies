@@ -17,12 +17,12 @@ import javax.validation.groups.Default;
 public class LoginInfo {
 
     @ApiModelProperty(value = "用户名")
-    @Length(min = 10, max = 10, groups = {Login.class}, message = "用户名只能为10个字符")
+    @Length(min = 3, max = 10, groups = {Login.class}, message = "用户名只能为10个字符")
     @NotBlank(groups = {Login.class, Default.class}, message = "用户名不能为空")
     private String username;
 
     @ApiModelProperty(value = "密码")
-    @Length(min = 8, groups = {Login.class}, message = "密码最少8个字符")
+    @Length(min = 6, groups = {Login.class}, message = "密码最少8个字符")
     @NotBlank(groups = {Login.class, Default.class}, message = "密码不能为空")
     private String password;
 
